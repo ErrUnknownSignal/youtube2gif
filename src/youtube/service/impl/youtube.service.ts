@@ -64,10 +64,14 @@ export class YoutubeService {
                 console.error(stdout);
                 return reject(error);
             }
+            const split =path.split(this.temporaryFileService.getBasePath());
+            if (split.length === 1) {
+                throw new Error('fail to split path: ' + path);
+            }
             const saveDto = new SaveRequestDto();
             saveDto.v = v;
             saveDto.type = type;
-            saveDto.path = path;
+            saveDto.path = split[1];
 
             this.commandBus.execute(saveDto);
 

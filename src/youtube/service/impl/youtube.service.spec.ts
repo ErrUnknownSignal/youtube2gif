@@ -16,6 +16,10 @@ describe('youtube service', () => {
 
     beforeEach(async () => {
         temporaryFileService = new class implements TemporaryFileService {
+            getBasePath(): string {
+                return os.tmpdir();
+            }
+
             createTemporaryFile(extension: string): string {
                 return testImg + '.' + extension;
             }

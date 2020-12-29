@@ -1,7 +1,7 @@
 import {YoutubeService} from "./youtube.service";
-import {ImageDto} from "../../dto/ImageDto";
+import {ConvertTimeDto} from "../../dto/ConvertTimeDto";
 import {execFile} from "child_process";
-import {GifDto} from "../../dto/GifDto";
+import {ConvertRangeDto} from "../../dto/ConvertRangeDto";
 import {TemporaryFileService} from "../TemporaryFileService";
 import {Test, TestingModule} from "@nestjs/testing";
 import {CommandBus, ICommand, ICommandBus} from "@nestjs/cqrs";
@@ -48,8 +48,8 @@ describe('youtube service', () => {
         });
     });
 
-    it('youtube to image test', async () => {
-        const img = new ImageDto();
+    it('youtube to image', async () => {
+        const img = new ConvertTimeDto();
         img.v = 'dQw4w9WgXcQ';
         img.t = 18;
 
@@ -69,8 +69,8 @@ describe('youtube service', () => {
     });
 
 
-    it('youtube to gif test', async () => {
-        const img = new GifDto();
+    it('youtube to gif', async () => {
+        const img = new ConvertRangeDto();
         img.v = 'dQw4w9WgXcQ';
         img.start = 18;
         img.time = 3;
@@ -85,6 +85,27 @@ describe('youtube service', () => {
             expect(err).toBeNull();
             expect(stat).not.toBeUndefined();
             fs.unlink(testImg + '.gif', (err) => {
+                expect(err).toBeNull();
+            });
+        });
+    });
+
+    it('youtube to mp3', async () => {
+        const img = new ConvertRangeDto();
+        img.v = 'dQw4w9WgXcQ';
+        img.start = 18;
+        img.time = 3;
+
+        const result = await youtubeService.mp3(img);
+        console.log(result);
+        expect(result).not.toBeNull();
+        expect(result).not.toBeUndefined();
+        expect(result).not.toEqual('');
+        fs.stat(testImg + '.mp3', (err, stat) => {
+            console.log(err, stat);
+            expect(err).toBeNull();
+            expect(stat).not.toBeUndefined();
+            fs.unlink(testImg + '.mp3', (err) => {
                 expect(err).toBeNull();
             });
         });

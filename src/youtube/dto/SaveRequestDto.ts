@@ -1,10 +1,10 @@
-import {ImageType} from "../enums/ImageType";
+import {ConvertRequestType} from "../enums/ConvertRequestType";
 
 export class SaveRequestDto {
 
     v: string;
 
-    type: ImageType;
+    type: ConvertRequestType;
 
     path: string;
 }

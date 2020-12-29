@@ -1,14 +1,9 @@
 import {IsNotEmpty, IsPositive} from "class-validator";
 
-
-export class GifDto {
-
+export class ConvertTimeDto {
     @IsNotEmpty()
     v: string;
 
     @IsPositive()
-    start: number;
-
-    @IsPositive()
-    time: number;
+    t: number;
 }

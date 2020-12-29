@@ -1,5 +1,5 @@
 import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn} from "typeorm";
-import {ImageType} from "../enums/ImageType";
+import {ConvertRequestType} from "../enums/ConvertRequestType";
 
 @Entity({name: 'video'})
 export class VideoEntity {
@@ -10,8 +10,8 @@ export class VideoEntity {
     @Column("varchar", {length: 32, nullable: false})
     v!: string;
 
-    @Column({type: 'enum', enum: ImageType, default: ImageType.PNG, nullable: false})
-    type: ImageType;
+    @Column({type: 'enum', enum: ConvertRequestType, default: ConvertRequestType.PNG, nullable: false})
+    type: ConvertRequestType;
 
     @CreateDateColumn()
     date!: Date;

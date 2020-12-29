@@ -1,9 +1,14 @@
 import {IsNotEmpty, IsPositive} from "class-validator";
 
-export class ImageDto {
+
+export class ConvertRangeDto {
+
     @IsNotEmpty()
     v: string;
 
     @IsPositive()
-    t: number;
+    start: number;
+
+    @IsPositive()
+    time: number;
 }

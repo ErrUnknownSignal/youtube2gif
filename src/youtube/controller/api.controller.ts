@@ -1,6 +1,6 @@
 import {Body, Controller, Post, Req} from "@nestjs/common";
-import {GifDto} from "../dto/GifDto";
-import {ImageDto} from "../dto/ImageDto";
+import {ConvertRangeDto} from "../dto/ConvertRangeDto";
+import {ConvertTimeDto} from "../dto/ConvertTimeDto";
 import { Request } from 'express';
 import {YoutubeService} from "../service/impl/youtube.service";
 
@@ -11,12 +11,17 @@ export class ApiController {
     constructor(private youtubeService: YoutubeService) {}
 
     @Post('gif')
-    async gif(@Req() req: Request, @Body() gifDto: GifDto): Promise<string> {
+    async gif(@Req() req: Request, @Body() gifDto: ConvertRangeDto): Promise<string> {
         return await this.youtubeService.gif(gifDto);
     }
 
     @Post('image')
-    async image(@Req() req: Request, @Body() imageDto: ImageDto): Promise<string> {
+    async image(@Req() req: Request, @Body() imageDto: ConvertTimeDto): Promise<string> {
         return await this.youtubeService.image(imageDto);
+    }
+
+    @Post('mp3')
+    async mp3(@Req() req: Request, @Body() mp3Dto: ConvertRangeDto): Promise<string> {
+        return await this.youtubeService.mp3(mp3Dto);
     }
 }

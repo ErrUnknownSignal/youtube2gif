@@ -1,4 +1,8 @@
 import {AfterViewInit, Component, NgZone, OnDestroy, Renderer2} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {ApiService} from './service/api.service';
+import {ConvertRange} from './vo/convert-range';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -16,13 +20,22 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   showTips = false;
   useCurrentTime = false;
 
+  v;
+
   startMin = 0;
   startSec = 0;
   startMil = 0;
   duration = 0;
   durationMill = 0;
 
-  constructor(private ngZone: NgZone, private renderer: Renderer2) {
+  constructor(private ngZone: NgZone,
+              private renderer: Renderer2,
+              private http: HttpClient,
+              private api: ApiService) {
+  }
+
+  private downloadFile(file: string): Observable<Blob> {
+    return this.http.get(`static/download/${file}`, { responseType: 'blob'});
   }
 
   loadUrl(): void {
@@ -45,6 +58,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
 
     if (v) {
+      this.v = v;
       this.wrongUrl = false;
 
       const youtubeFrameElement = this.renderer.createElement('div');
@@ -71,7 +85,22 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   }
 
   preview(): void {
-    //TODO
+    const convertRange = new ConvertRange();
+
+    convertRange.v = this.v;
+    convertRange.start = (this.startMin * 60) + this.startSec;
+    convertRange.time = this.duration;
+
+    this.api.convertGif(convertRange).subscribe(value => {
+      this.downloadFile(value.file).subscribe(blob => {
+        const a = document.createElement('a');
+        const objectUrl = URL.createObjectURL(blob);
+        a.href = objectUrl;
+        a.download = `${this.player.getVideoData().title}.gif`;
+        a.click();
+        URL.revokeObjectURL(objectUrl);
+      });
+    });
   }
 
   ngAfterViewInit(): void {

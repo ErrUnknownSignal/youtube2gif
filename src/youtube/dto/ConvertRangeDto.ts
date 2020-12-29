@@ -1,6 +1,5 @@
 import {IsNotEmpty, IsPositive} from "class-validator";
 
-
 export class ConvertRangeDto {
 
     @IsNotEmpty()

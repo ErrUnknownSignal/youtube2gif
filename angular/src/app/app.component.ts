@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, NgZone, OnDestroy} from '@angular/core';
+import {AfterViewInit, Component, NgZone, OnDestroy, Renderer2} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +22,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   duration = 0;
   durationMill = 0;
 
-  constructor(private ngZone: NgZone) {
+  constructor(private ngZone: NgZone, private renderer: Renderer2) {
   }
 
   loadUrl(): void {
@@ -46,6 +46,11 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     if (v) {
       this.wrongUrl = false;
+
+      const youtubeFrameElement = this.renderer.createElement('div');
+      this.renderer.setProperty(youtubeFrameElement, 'id', 'youtube-frame');
+      this.renderer.appendChild(this.renderer.selectRootElement('.youtube-frame'), youtubeFrameElement);
+
       this.player = new YT.Player('youtube-frame', {
         width: '480',
         height: '320',

@@ -1,0 +1,7 @@
+.idea
+.git
+angular
+dist
+node_modules
+npm-debug.log
+mysql-pass.yaml

@@ -1,0 +1,64 @@
+<div class="container">
+  <nav class="header">
+    <div class="header-content">
+      <ul>
+        <li><a href="/"><img src="assets/img/logo.jpg" alt="logo"></a></li>
+        <li><a href="/youtube2gif">YOUTUBE TO GIF</a></li>
+        <li><a href="/youtube2image">YOUTUBE TO IMAGE</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section>
+      <div class="youtube-url">
+        <div>
+          <input type="text" id="youtube" [(ngModel)]="url" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+        </div>
+        <div class="url-wrong" *ngIf="wrongUrl">wrong url!!</div>
+        <div>
+          <button type="button" id="youtube-load" (click)="loadUrl()">Load</button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="youtube-editor">
+        <div class="youtube-preview">
+          <div id="youtube-frame"></div>
+          <div class="tips" *ngIf="showTips">Press < > key to previous frame and next frame</div>
+        </div>
+        <div class="youtube-control">
+          <div>
+            <div>
+              <label>Current time as start time
+                <input type="checkbox" id="current-time" [(ngModel)]="useCurrentTime" />
+              </label>
+            </div>
+            <div class="start-time">
+              <span>Start time</span>
+              <input type="number" id="start-min" class="number-only" min="0" max="59" appSecondFormatter [(ngModel)]="startMin" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />
+              <span>:</span>
+              <input type="number" id="start-sec" class="number-only" min="0" max="59" appSecondFormatter [(ngModel)]="startSec" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />
+              <span>.</span>
+              <input type="number" id="start-mill" class="number-only" min="0" max="999" appSecondFormatter [(ngModel)]="startMil" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />
+            </div>
+            <div class="duration">
+              <span>Duration</span>
+              <input type="number" id="duration" class="number-only" min="0" max="59" appSecondFormatter [(ngModel)]="duration" />
+              <span>.</span>
+              <input type="number" id="duration-mill" class="number-only" min="0" max="999" appSecondFormatter [(ngModel)]="durationMill" />
+            </div>
+            <div class="preview-btn">
+              <button type="button" id="preview" (click)="preview()">preview</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+
+    </section>
+  </main>
+</div>

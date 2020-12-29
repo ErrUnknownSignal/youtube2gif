@@ -1,0 +1,178 @@
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td,button,img {
+  margin:0;padding:0;
+}
+html,body,img,table {
+  border:0;
+}
+ol,ul {
+  list-style:none;
+}
+textarea {
+  resize: none;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+}
+body {
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
+
+nav.header {
+  background: #333333;
+  height: 48px;
+}
+nav.header>.header-content {
+  margin: 0 auto;
+  max-width: 980px;
+  height: 100%;
+}
+.header-content>ul, .header-content>ul>li, .header-content img {
+  height: 100%;
+}
+.header-content>ul>li {
+  display: inline-block;
+  vertical-align: top;
+}
+.header-content>ul>li:nth-child(n+2) {
+  margin: 0 10px;
+}
+.header-content>ul>li>a {
+  display: inline-block;
+  height: 100%;
+  line-height: 48px;
+  color: #f5f5f7;
+  text-decoration: none;
+}
+.header-content>ul>li.active>a {
+  color: #f5f5f7;
+}
+
+main>section {
+  margin: 0 auto;
+  max-width: 980px;
+}
+
+
+.youtube-url {
+  margin: 20px auto;
+  padding: 15px;
+  background: #fafafa;
+  border: 1px solid #d7d7d7;
+  text-align: center;
+}
+
+.youtube-url >.url-wrong {
+  padding: 10px 0;
+  text-align: center;
+  font-size: 24px;
+  color: red;
+}
+.youtube-url input[type="text"] {
+  width: 80%;
+  height: 40px;
+  padding: 0 15px 0 15px;
+  border: 2px solid #5d89ba;
+  border-radius: 35px;
+  color: #737373;
+  font-size: 20px;
+  outline: none;
+}
+.youtube-url input[type="text"]::placeholder {
+  color: #d8d8d8;
+}
+.youtube-url button[type="button"] {
+  margin: 15px 0;
+  padding: 10px 20px 10px 20px;
+  border: none;
+  border-radius: 40px;
+  background: #5d89ba;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+}
+
+
+.youtube-editor {
+  display: flex;
+}
+.youtube-editor>.youtube-preview {
+  flex: 1;
+  height: 320px;
+}
+.youtube-preview>.tips {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 4px 11px;
+  text-align: center;
+  border-radius: 12px;
+  background: #51a1f3;
+  color: #fff;
+  font-size: 12px;
+}
+
+.youtube-editor>.youtube-control {
+  flex: 1;
+  text-align: center;
+}
+
+.youtube-control>div {
+  display: inline-block;
+  padding-top: 30px;
+  text-align: left;
+}
+.youtube-control>div>div:nth-child(n+2) {
+  margin-top: 10px;
+}
+.youtube-control>div>div>label {
+  display: inline-block;
+  font-size: 24px;
+  color: #909090;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.youtube-control>div>div>span:first-child {
+  display: inline-block;
+  width: 120px;
+  font-size: 24px;
+  color: #909090;
+}
+.youtube-control>div>div>span:not(:first-child) {
+  font-size: 32px;
+  color: #909090;
+}
+.youtube-control>div>div>input {
+  width: 80px; height: 30px;
+  border: 2px solid #909090;
+  text-align: center;
+  color: #5d89ba;
+  font-size: 32px;
+}
+.youtube-control>div>div>input.disable {
+  background-color: #cccccc;
+  color: #adadad;
+}
+
+.youtube-control .preview-btn {
+  text-align: center;
+}
+.youtube-control button[type="button"] {
+  margin: 15px 0;
+  padding: 10px 20px 10px 20px;
+  border: none;
+  border-radius: 40px;
+  background: #5d89ba;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+}

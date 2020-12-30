@@ -35,7 +35,8 @@ lerna-debug.log*
 
 # Etc
 public/assets
-public/download
+public/download/*
+!public/download/.gitkeep
 views/index.html
 public/main.*.js
 public/polyfills.*.js

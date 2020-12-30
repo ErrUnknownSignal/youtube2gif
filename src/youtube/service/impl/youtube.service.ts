@@ -36,7 +36,7 @@ export class YoutubeService {
             const tempFile = this.temporaryFileService.createTemporaryFile('png');
             const info = await this.getInfo(imageDto.v);
             const format = ytdl.chooseFormat(info.formats, { quality: 'highestvideo' });
-            const args = ['-ss', String(imageDto.t), '-i', format.url, '-frames:v', '1', '-an', '-y', tempFile];
+            const args = ['-ss', String(imageDto.time), '-i', format.url, '-frames:v', '1', '-an', '-y', tempFile];
 
             this.convert(args, imageDto.v, ConvertRequestType.PNG, tempFile, resolve, reject);
         });
@@ -64,7 +64,7 @@ export class YoutubeService {
                 console.error(stdout);
                 return reject(error);
             }
-            const split =path.split(this.temporaryFileService.getBasePath());
+            const split = path.split(this.temporaryFileService.getBasePath() + "\\");
             if (split.length === 1) {
                 throw new Error('fail to split path: ' + path);
             }
@@ -75,7 +75,7 @@ export class YoutubeService {
 
             this.commandBus.execute(saveDto);
 
-            resolve(path);
+            resolve(split[1]);
         });
     }
 }

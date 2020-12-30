@@ -55,7 +55,7 @@ describe('youtube service', () => {
     it('youtube to image', async () => {
         const img = new ConvertTimeDto();
         img.v = 'dQw4w9WgXcQ';
-        img.t = 18;
+        img.time = 18;
 
         const result = await youtubeService.image(img);
         console.log(result);

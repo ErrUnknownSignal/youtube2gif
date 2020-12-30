@@ -2,7 +2,6 @@ import {AfterViewInit, Component, NgZone, OnDestroy, Renderer2} from '@angular/c
 import {HttpClient} from '@angular/common/http';
 import {ApiService} from './service/api.service';
 import {ConvertRange} from './vo/convert-range';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +20,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   useCurrentTime = false;
 
   v;
+  filePath;
 
   startMin = 0;
   startSec = 0;
@@ -34,8 +34,20 @@ export class AppComponent implements AfterViewInit, OnDestroy {
               private api: ApiService) {
   }
 
-  private downloadFile(file: string): Observable<Blob> {
-    return this.http.get(`static/download/${file}`, { responseType: 'blob'});
+  private clearVideo(): void {
+    this.player = undefined;
+    this.filePath = undefined;
+  }
+
+  downloadFile(): void {
+    this.http.get(this.filePath, { responseType: 'blob'}).subscribe(blob => {
+      const a = document.createElement('a');
+      const objectUrl = URL.createObjectURL(blob);
+      a.href = objectUrl;
+      a.download = `${this.player.getVideoData().title}.gif`;
+      a.click();
+      URL.revokeObjectURL(objectUrl);
+    });
   }
 
   loadUrl(): void {
@@ -59,6 +71,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
     if (v) {
       this.v = v;
+      this.clearVideo();
+
       this.wrongUrl = false;
 
       const youtubeFrameElement = this.renderer.createElement('div');
@@ -92,15 +106,15 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     convertRange.time = this.duration;
 
     this.api.convertGif(convertRange).subscribe(value => {
-      this.downloadFile(value.file).subscribe(blob => {
-        const a = document.createElement('a');
-        const objectUrl = URL.createObjectURL(blob);
-        a.href = objectUrl;
-        a.download = `${this.player.getVideoData().title}.gif`;
-        a.click();
-        URL.revokeObjectURL(objectUrl);
-      });
+      this.filePath = `static/download/${value.file}`;
+
+      const previewElement = this.renderer.selectRootElement('#previewImage');
+      this.renderer.setProperty(previewElement, 'src', this.filePath);
     });
+  }
+
+  hasPlayer(): boolean {
+    return this.player;
   }
 
   ngAfterViewInit(): void {

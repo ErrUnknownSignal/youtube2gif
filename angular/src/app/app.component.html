@@ -58,7 +58,17 @@
     </section>
 
     <section>
+      <div class="image-preview">
+        <img *ngIf="this.filePath" [src]=this.filePath />
+      </div>
+    </section>
 
+    <section>
+      <div class="download-layer" *ngIf="hasPlayer() && this.filePath">
+        <div class="download-btn">
+          <button type="button" id="download" (click)="downloadFile()">download</button>
+        </div>
+      </div>
     </section>
   </main>
 </div>

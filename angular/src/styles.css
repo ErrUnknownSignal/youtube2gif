@@ -176,3 +176,29 @@ main>section {
   cursor: pointer;
   outline: none;
 }
+
+.image-preview {
+  display: flex;
+}
+.image-preview > img {
+  width: 100%;
+}
+
+.download-layer {
+  display: flex;
+}
+.download-layer .download-btn {
+  text-align: center;
+}
+.download-btn button[type="button"] {
+  margin: 15px 0;
+  padding: 10px 20px 10px 20px;
+  border: none;
+  border-radius: 40px;
+  background: #5d89ba;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+}

@@ -14,7 +14,7 @@ describe('youtube service', () => {
     let youtubeService: YoutubeService;
     let temporaryFileService: TemporaryFileService;
 
-    beforeEach(async () => {
+    beforeEach(async (done) => {
         temporaryFileService = new class implements TemporaryFileService {
             getBasePath(): string {
                 return os.tmpdir();
@@ -37,9 +37,10 @@ describe('youtube service', () => {
         }).compile();
         youtubeService = module.get<YoutubeService>(YoutubeService);
         jest.setTimeout(30 * 1000);
+        done();
     });
 
-    it('ffmpeg check', () => {
+    it('ffmpeg check', async (done) => {
         execFile('ffmpeg', ['-version'], (error, stdout, stderr) => {
             if (error) {
                 console.error(stderr);
@@ -49,10 +50,11 @@ describe('youtube service', () => {
             expect(stdout).not.toBeNull();
             expect(stdout).not.toBeUndefined();
             expect(stdout).not.toEqual('');
+            done();
         });
     });
 
-    it('youtube to image', async () => {
+    it('youtube to image', async (done) => {
         const img = new ConvertTimeDto();
         img.v = 'dQw4w9WgXcQ';
         img.time = 18;
@@ -68,12 +70,13 @@ describe('youtube service', () => {
             expect(stat).not.toBeUndefined();
             fs.unlink(testImg + '.png', (err) => {
                 expect(err).toBeNull();
+                done();
             });
         });
     });
 
 
-    it('youtube to gif', async () => {
+    it('youtube to gif', async (done) => {
         const img = new ConvertRangeDto();
         img.v = 'dQw4w9WgXcQ';
         img.start = 18;
@@ -90,11 +93,12 @@ describe('youtube service', () => {
             expect(stat).not.toBeUndefined();
             fs.unlink(testImg + '.gif', (err) => {
                 expect(err).toBeNull();
+                done();
             });
         });
     });
 
-    it('youtube to mp3', async () => {
+    it('youtube to mp3', async (done) => {
         const img = new ConvertRangeDto();
         img.v = 'dQw4w9WgXcQ';
         img.start = 18;
@@ -111,6 +115,7 @@ describe('youtube service', () => {
             expect(stat).not.toBeUndefined();
             fs.unlink(testImg + '.mp3', (err) => {
                 expect(err).toBeNull();
+                done();
             });
         });
     });

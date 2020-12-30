@@ -8,6 +8,8 @@ import {SaveRequestDto} from "../../dto/SaveRequestDto";
 import {ConvertRequestType} from "../../enums/ConvertRequestType";
 import {TemporaryFileService} from "../TemporaryFileService";
 import {CommandBus} from "@nestjs/cqrs";
+import * as path from 'path';
+import * as os from 'os';
 
 
 @Injectable()
@@ -57,16 +59,19 @@ export class YoutubeService {
         return await ytdl.getInfo(v);
     }
 
-    private convert(args: string[], v: string, type: ConvertRequestType, path: string, resolve: (value: string) => void, reject: (reason?: any) => void): void {
+    private convert(args: string[], v: string, type: ConvertRequestType, filePath: string, resolve: (value: string) => void, reject: (reason?: any) => void): void {
         execFile('ffmpeg', args, (error, stdout, stderr) => {
             if (error) {
                 console.error(stderr);
                 console.error(stdout);
                 return reject(error);
             }
-            const split = path.split(this.temporaryFileService.getBasePath() + "\\");
+            const split = filePath.split(this.temporaryFileService.getBasePath() + path.sep);
             if (split.length === 1) {
-                throw new Error('fail to split path: ' + path);
+                throw new Error('fail to split path: ' + filePath);
+            }
+            if (os.platform() === 'win32') {
+                split[1] = split[1].replace('\\', '/');
             }
             const saveDto = new SaveRequestDto();
             saveDto.v = v;

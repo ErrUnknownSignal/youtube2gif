@@ -1,10 +1,10 @@
-import {IsNotEmpty, IsPositive} from "class-validator";
+import {IsNotEmpty, Min} from "class-validator";
 
 export class ConvertTimeDto {
 
     @IsNotEmpty()
     v: string;
 
-    @IsPositive()
+    @Min(0)
     time: number;
 }

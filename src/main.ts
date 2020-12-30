@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import {join} from "path";
 import {ValidationPipe} from "@nestjs/common";
 
-const DOWNLOAD_PATH = join(__dirname, '..', '..', 'public', 'download');
+const DOWNLOAD_PATH = join(__dirname, '..', 'public', 'download');
 
 async function bootstrap() {
   // const app = await NestFactory.create(AppModule);

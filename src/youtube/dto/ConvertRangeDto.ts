@@ -1,11 +1,11 @@
-import {IsNotEmpty, IsPositive} from "class-validator";
+import {IsNotEmpty, IsPositive, Min} from "class-validator";
 
 export class ConvertRangeDto {
 
     @IsNotEmpty()
     v: string;
 
-    @IsPositive()
+    @Min(0)
     start: number;
 
     @IsPositive()

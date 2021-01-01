@@ -1,0 +1,209 @@
+section {
+  margin-top: 20px;
+}
+
+.youtube-url {
+  margin: 20px auto;
+  padding: 15px;
+  text-align: center;
+}
+
+.youtube-url >.url-wrong {
+  padding: 10px 0;
+  text-align: center;
+  font-size: 24px;
+  color: red;
+}
+
+
+.youtube-url label {
+  width: 80%;
+  height: 40px;
+}
+.youtube-url label>input[type="text"] {
+  padding: 0 15px 0 15px;
+  font-size: 20px;
+  outline: none;
+}
+.youtube-url input[type="text"]::placeholder {
+  color: #636363;
+}
+
+.youtube-url button[type="button"] {
+  margin: 15px 0;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+}
+
+
+.youtube-editor {
+  display: flex;
+  padding: 10px;
+}
+.youtube-editor>.youtube-preview {
+  flex: 1;
+  height: 320px;
+  margin-right: 5px;
+  overflow: hidden;
+}
+.youtube-preview>.tips {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 4px 11px;
+  text-align: center;
+  border-radius: 12px;
+  background: #51a1f3;
+  color: #fff;
+  font-size: 12px;
+}
+
+.youtube-editor>.youtube-control {
+  flex: 1;
+  margin-left: 5px;
+  background-color: #758d77;
+  border-radius: 5px;
+  text-align: center;
+
+  color: #eaeaea;
+  text-shadow:
+    -1px -1px 0 #2d2d2d,
+    1px -1px 0 #2d2d2d,
+    -1px 1px 0 #2d2d2d,
+    1px 1px 0 #2d2d2d;
+}
+
+
+
+
+.youtube-control>div {
+  display: inline-block;
+  width: 85%;
+  padding-top: 30px;
+  text-align: left;
+}
+.youtube-control>div>div:nth-child(n+2) {
+  margin-top: 10px;
+}
+.youtube-control>div>.user-input {
+  padding: 3px 5px;
+  background-color: #617968;
+  border-radius: 5px;
+}
+
+.youtube-control>div>.quality {
+
+}
+.quality>label {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #96af9f;
+}
+.quality>label:not(:last-child) {
+  margin-right: 10px;
+}
+.quality>input[type="radio"] {
+  display: none;
+}
+.quality>input[type="radio"]:checked + label {
+  background-color: #647c66;
+}
+
+.current-start-time-checkbox>label {
+  display: inline-block;
+  font-size: 24px;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.youtube-control .time>* {
+  vertical-align: top;
+}
+.time>span:not(:first-child) {
+  padding: 0 6px 0 8px;
+  line-height: 32px;
+  color: #909090;
+}
+.time>span:first-child {
+  display: inline-block;
+  width: 120px;
+  font-size: 24px;
+
+  color: #eaeaea;
+  text-shadow:
+    -1px -1px 0 #2d2d2d,
+    1px -1px 0 #2d2d2d,
+    -1px 1px 0 #2d2d2d,
+    1px 1px 0 #2d2d2d;
+}
+
+
+.time label {
+  display: inline-block;
+  height: 25px;
+  width: 60px;
+  margin-top: 3px;
+}
+.time label>input {
+  width: 100%; height: 100%;
+  background-color: transparent;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  text-align: center;
+  color: #eaeaea;
+  outline: none;
+}
+.time label>input.disable {
+  background-color: #cecece;
+  color: #adadad;
+}
+
+
+.youtube-control .preview-btn {
+  text-align: center;
+}
+.youtube-control button[type="button"] {
+  margin: 15px 0;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  background-color: transparent;
+  outline: none;
+}
+
+
+
+
+.image-preview {
+  display: flex;
+}
+.image-preview > img {
+  width: 100%;
+}
+
+
+
+.download-layer {
+  display: flex;
+}
+.download-layer .download-btn {
+  text-align: center;
+}
+.download-btn button[type="button"] {
+  margin: 15px 0;
+  padding: 10px 20px 10px 20px;
+  border: none;
+  border-radius: 40px;
+  background: #5d89ba;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+}

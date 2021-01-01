@@ -14,6 +14,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   private intVal: any;
   private lastCurrentTime: number;
 
+  mp3Mode = false;
+
   url: string;
   wrongUrl = false;
   showTips = false;
@@ -22,16 +24,24 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   v;
   filePath;
 
+  videoQualities = VideoQuality;
+  videoQuality = VideoQuality.SMALL;
+
+  audioQualities = AudioQuality;
+  audioQuality = AudioQuality.HIGH;
+
   startMin = 0;
-  startSec = 0;
-  startMil = 0;
-  duration = 0;
-  durationMill = 0;
+  startSec = 0.0;
+  duration = 0.0;
 
   constructor(private ngZone: NgZone,
               private renderer: Renderer2,
               private http: HttpClient,
               private api: ApiService) {
+    if (/youtube2mp3/i.test(location.pathname)) {
+      this.mp3Mode = true;
+    }
+    // this.url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
   }
 
   private clearVideo(): void {
@@ -51,6 +61,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   }
 
   loadUrl(): void {
+    if (!this.url) {
+      return;
+    }
     const val = this.url.trim();
     let v, t;
     let match;
@@ -69,36 +82,39 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       t = 0;
     }
 
-    if (v) {
-      this.v = v;
-      this.clearVideo();
-
-      this.wrongUrl = false;
-
-      const youtubeFrameElement = this.renderer.createElement('div');
-      this.renderer.setProperty(youtubeFrameElement, 'id', 'youtube-frame');
-      this.renderer.appendChild(this.renderer.selectRootElement('.youtube-frame'), youtubeFrameElement);
-
-      this.player = new YT.Player('youtube-frame', {
-        width: '480',
-        height: '320',
-        videoId: v,
-        playerVars: {
-          enablejsapi: 1,
-          // origin: location.host,
-          start: t,
-          rel: 0
-        },
-        events: {
-          onStateChange: this.onPlayerStateChange.bind(this)
-        }
-      });
-    } else {
+    if (!v) {
       this.wrongUrl = true;
+      return
     }
+    this.v = v;
+    this.clearVideo();
+
+    this.wrongUrl = false;
+
+    const youtubeFrameElement = this.renderer.createElement('div');
+    this.renderer.setProperty(youtubeFrameElement, 'id', 'youtube-frame');
+    this.renderer.appendChild(this.renderer.selectRootElement('.youtube-frame'), youtubeFrameElement);
+
+    this.player = new YT.Player('youtube-frame', {
+      width: '480',
+      height: '320',
+      videoId: v,
+      playerVars: {
+        enablejsapi: 1,
+        start: t,
+        rel: 0
+      },
+      events: {
+        // onReady: this.onPlayerReady.bind(this),
+        onStateChange: this.onPlayerStateChange.bind(this)
+      }
+    });
   }
 
   preview(): void {
+    if (!this.v) {
+      return;
+    }
     const convertRange = new ConvertRange();
 
     convertRange.v = this.v;
@@ -145,4 +161,17 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       }
     });
   }
+}
+
+enum VideoQuality {
+  SMALL,  //320x240
+  MEDIUM, //640x360
+  LARGE,  //853x480
+  HD, //1280x720
+  FHD //1920x1080
+}
+
+enum AudioQuality {
+  LOW,
+  HIGH
 }

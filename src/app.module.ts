@@ -8,16 +8,16 @@ import {join} from 'path'
 @Module({
   imports: [
       ServeStaticModule.forRoot({
-          rootPath: join(__dirname, '..', '..', 'public'),
+          rootPath: join(__dirname, '..', 'public'),
           serveRoot: '/static'
       }),
       ServeStaticModule.forRoot({
-          rootPath: join(__dirname, '..', '..', 'public', 'assets'),
+          rootPath: join(__dirname, '..', 'public', 'assets'),
           serveRoot: '/assets'
       }),
       ServeStaticModule.forRoot({
-          rootPath: join(__dirname, '..', '..', 'views'),
-          renderPath: /^\/(youtube2gif|youtube2image)\/?$/i
+          rootPath: join(__dirname, '..', 'views'),
+          renderPath: /^\/(youtube2gif|youtube2image|youtube2mp3)\/?$/i
       }),
       TypeOrmModule.forRoot({
         type: 'mariadb',

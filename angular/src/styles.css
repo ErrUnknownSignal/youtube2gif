@@ -16,6 +16,7 @@ html, body {
 }
 body {
   font-family: 'Nanum Gothic', sans-serif;
+  background-color: #000;
 }
 
 
@@ -50,155 +51,62 @@ nav.header>.header-content {
 }
 
 main>section {
+  position: relative;
+  box-sizing: border-box;
+
   margin: 0 auto;
   max-width: 980px;
+
+  border: 2px solid #dedede;
+  border-radius: 5px;
+  background-color: #000;
+}
+main>section:before {
+  content: '';
+  display: block;
+  position: absolute;
+  border: 2px solid #dedede;
+  border-radius: 5px;
+  background: none;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  pointer-events: none;
 }
 
+button[type="button"] {
+  position: relative;
+  padding: 5px 15px;
+  border: 3px solid #dedede;
+  border-radius: 8px;
+  background-color: #000;
 
-.youtube-url {
-  margin: 20px auto;
-  padding: 15px;
-  background: #fafafa;
-  border: 1px solid #d7d7d7;
-  text-align: center;
+  color: #eaeaea;
+  text-shadow:
+    -1px -1px 0 #2d2d2d,
+    1px -1px 0 #2d2d2d,
+    -1px 1px 0 #2d2d2d,
+    1px 1px 0 #2d2d2d;
 }
 
-.youtube-url >.url-wrong {
-  padding: 10px 0;
-  text-align: center;
-  font-size: 24px;
-  color: red;
+label.triple-border {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 2px;
+  border: 2px solid #dedede;
+  border-radius: 5px;
 }
-.youtube-url input[type="text"] {
-  width: 80%;
-  height: 40px;
-  padding: 0 15px 0 15px;
-  border: 2px solid #5d89ba;
-  border-radius: 35px;
-  color: #737373;
+label.triple-border>input[type="text"], label.triple-border>input[type="number"] {
+  width: 100%; height: 100%;
+  box-sizing: border-box;
+  vertical-align: top;
+
+  border: 2px solid #dedede;
+  border-radius: 5px;
+  background-color: #000;
+  color: #eaeaea;
   font-size: 20px;
-  outline: none;
-}
-.youtube-url input[type="text"]::placeholder {
-  color: #d8d8d8;
-}
-.youtube-url button[type="button"] {
-  margin: 15px 0;
-  padding: 10px 20px 10px 20px;
-  border: none;
-  border-radius: 40px;
-  background: #5d89ba;
-  color: #fff;
-  font-size: 14px;
-  text-align: center;
-  cursor: pointer;
-  outline: none;
-}
-
-
-.youtube-editor {
-  display: flex;
-}
-.youtube-editor>.youtube-preview {
-  flex: 1;
-  height: 320px;
-}
-.youtube-preview>.tips {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 4px 11px;
-  text-align: center;
-  border-radius: 12px;
-  background: #51a1f3;
-  color: #fff;
-  font-size: 12px;
-}
-
-.youtube-editor>.youtube-control {
-  flex: 1;
-  text-align: center;
-}
-
-.youtube-control>div {
-  display: inline-block;
-  padding-top: 30px;
-  text-align: left;
-}
-.youtube-control>div>div:nth-child(n+2) {
-  margin-top: 10px;
-}
-.youtube-control>div>div>label {
-  display: inline-block;
-  font-size: 24px;
-  color: #909090;
-
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-.youtube-control>div>div>span:first-child {
-  display: inline-block;
-  width: 120px;
-  font-size: 24px;
-  color: #909090;
-}
-.youtube-control>div>div>span:not(:first-child) {
-  font-size: 32px;
-  color: #909090;
-}
-.youtube-control>div>div>input {
-  width: 80px; height: 30px;
-  border: 2px solid #909090;
-  text-align: center;
-  color: #5d89ba;
-  font-size: 32px;
-}
-.youtube-control>div>div>input.disable {
-  background-color: #cccccc;
-  color: #adadad;
-}
-
-.youtube-control .preview-btn {
-  text-align: center;
-}
-.youtube-control button[type="button"] {
-  margin: 15px 0;
-  padding: 10px 20px 10px 20px;
-  border: none;
-  border-radius: 40px;
-  background: #5d89ba;
-  color: #fff;
-  font-size: 14px;
-  text-align: center;
-  cursor: pointer;
-  outline: none;
-}
-
-.image-preview {
-  display: flex;
-}
-.image-preview > img {
-  width: 100%;
-}
-
-.download-layer {
-  display: flex;
-}
-.download-layer .download-btn {
-  text-align: center;
-}
-.download-btn button[type="button"] {
-  margin: 15px 0;
-  padding: 10px 20px 10px 20px;
-  border: none;
-  border-radius: 40px;
-  background: #5d89ba;
-  color: #fff;
-  font-size: 14px;
-  text-align: center;
-  cursor: pointer;
   outline: none;
 }

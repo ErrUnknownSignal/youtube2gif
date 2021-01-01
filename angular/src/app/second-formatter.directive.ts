@@ -43,7 +43,10 @@ export class SecondFormatterDirective implements AfterViewInit {
   }
 
   private format(value: string): void {
-    let temp = parseInt(value, 10);
+    if (/\d\./.test(value)) {
+      value += '0';
+    }
+    let temp = Number(value);
     if (isNaN(temp) || temp < this.min || temp > this.max) {
       this._value = '0';
       temp = 0;

@@ -5,6 +5,7 @@
         <li><a href="/"><img src="assets/img/logo.jpg" alt="logo"></a></li>
         <li><a href="/youtube2gif">YOUTUBE TO GIF</a></li>
         <li><a href="/youtube2image">YOUTUBE TO IMAGE</a></li>
+        <li><a href="/youtube2mp3">YOUTUBE TO MP3</a></li>
       </ul>
     </div>
   </nav>
@@ -13,7 +14,9 @@
     <section>
       <div class="youtube-url">
         <div>
-          <input type="text" id="youtube" [(ngModel)]="url" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+          <label class="triple-border">
+            <input type="text" id="youtube" [(ngModel)]="url" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+          </label>
         </div>
         <div class="url-wrong" *ngIf="wrongUrl">wrong url!!</div>
         <div>
@@ -30,25 +33,52 @@
         </div>
         <div class="youtube-control">
           <div>
-            <div>
+            <div class="quality" *ngIf="!mp3Mode">
+              <input type="radio" id="qualitySmall" name="quality" [value]="videoQualities.SMALL" [(ngModel)]="videoQuality" />
+              <label for="qualitySmall">SMALL</label>
+              <input type="radio" id="qualityMedium" name="quality" [value]="videoQualities.MEDIUM" [(ngModel)]="videoQuality" />
+              <label for="qualityMedium">MEDIUM</label>
+              <input type="radio" id="qualityLarge" name="quality" [value]="videoQualities.LARGE" [(ngModel)]="videoQuality" />
+              <label for="qualityLarge">LARGE</label>
+              <input type="radio" id="qualityHD" name="quality" [value]="videoQualities.HD" [(ngModel)]="videoQuality" />
+              <label for="qualityHD">HD</label>
+              <input type="radio" id="qualityFHD" name="quality" [value]="videoQualities.FHD" [(ngModel)]="videoQuality" />
+              <label for="qualityFHD">FHD</label>
+            </div>
+            <div class="quality" *ngIf="mp3Mode">
+              <input type="radio" id="qualityLOW" name="quality" [value]="audioQualities.LOW" [(ngModel)]="audioQuality" />
+              <label for="qualityLOW">LOW</label>
+              <input type="radio" id="qualityHIGH" name="quality" [value]="audioQualities.HIGH" [(ngModel)]="audioQuality" />
+              <label for="qualityHIGH">HIGH</label>
+            </div>
+
+            <div class="user-input current-start-time-checkbox">
               <label>Current time as start time
                 <input type="checkbox" id="current-time" [(ngModel)]="useCurrentTime" />
               </label>
             </div>
-            <div class="start-time">
+
+            <div class="user-input time">
               <span>Start time</span>
-              <input type="number" id="start-min" class="number-only" min="0" max="59" appSecondFormatter [(ngModel)]="startMin" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />
+              <label>
+<!--                <input type="text" id="start-min" class="number-only" min="0" max="59" appSecondFormatter [(ngModel)]="startMin" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />-->
+                <input type="text" id="start-min" class="number-only" min="0" max="59" [(ngModel)]="startMin" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />
+              </label>
               <span>:</span>
-              <input type="number" id="start-sec" class="number-only" min="0" max="59" appSecondFormatter [(ngModel)]="startSec" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />
-              <span>.</span>
-              <input type="number" id="start-mill" class="number-only" min="0" max="999" appSecondFormatter [(ngModel)]="startMil" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />
+              <label>
+<!--                <input type="text" id="start-sec" class="number-only" min="0" max="59" appSecondFormatter [(ngModel)]="startSec" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />-->
+                <input type="text" id="start-sec" class="number-only" min="0" max="59" [(ngModel)]="startSec" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />
+              </label>
             </div>
-            <div class="duration">
+
+            <div class="user-input time">
               <span>Duration</span>
-              <input type="number" id="duration" class="number-only" min="0" max="59" appSecondFormatter [(ngModel)]="duration" />
-              <span>.</span>
-              <input type="number" id="duration-mill" class="number-only" min="0" max="999" appSecondFormatter [(ngModel)]="durationMill" />
+              <label>
+<!--                <input type="text" id="duration" class="number-only" min="0" max="60" appSecondFormatter [(ngModel)]="duration" />-->
+                <input type="text" id="duration" class="number-only" min="0" max="60" [(ngModel)]="duration" />
+              </label>
             </div>
+
             <div class="preview-btn">
               <button type="button" id="preview" (click)="preview()">preview</button>
             </div>
@@ -57,14 +87,14 @@
       </div>
     </section>
 
-    <section>
+    <section *ngIf="filePath">
       <div class="image-preview">
-        <img *ngIf="this.filePath" [src]=this.filePath />
+        <img [src]="filePath" alt="download file" />
       </div>
     </section>
 
-    <section>
-      <div class="download-layer" *ngIf="hasPlayer() && this.filePath">
+    <section *ngIf="hasPlayer() && filePath">
+      <div class="download-layer">
         <div class="download-btn">
           <button type="button" id="download" (click)="downloadFile()">download</button>
         </div>

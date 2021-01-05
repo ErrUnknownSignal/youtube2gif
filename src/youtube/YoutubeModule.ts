@@ -3,9 +3,10 @@ import {CqrsModule} from "@nestjs/cqrs";
 import {ApiController} from "./controller/api.controller";
 import {YoutubeService} from "./service/impl/youtube.service";
 import {TemporaryFileServiceImpl} from "./service/impl/TemporaryFileServiceImpl";
-import {YoutubeAnalyticsService} from "./service/impl/YoutubeAnalyticsService";
+import {ConvertHistoryService} from "./service/impl/ConvertHistoryService";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {VideoEntity} from "./entity/Video.entity";
+import {GarbageCollect} from "./tasks/GarbageCollect";
 
 
 @Module({
@@ -14,7 +15,12 @@ import {VideoEntity} from "./entity/Video.entity";
         TypeOrmModule.forFeature([VideoEntity])
     ],
     controllers: [ApiController],
-    providers: [YoutubeAnalyticsService, YoutubeService, {provide: 'TemporaryFileService', useClass: TemporaryFileServiceImpl}],
+    providers: [
+        ConvertHistoryService,
+        YoutubeService,
+        GarbageCollect,
+        {provide: 'TemporaryFileService', useClass: TemporaryFileServiceImpl}
+    ],
 })
 export class YoutubeModule {
 

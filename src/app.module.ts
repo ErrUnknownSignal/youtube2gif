@@ -4,6 +4,7 @@ import {VideoEntity} from "./youtube/entity/Video.entity";
 import {YoutubeModule} from "./youtube/YoutubeModule";
 import {ServeStaticModule} from "@nestjs/serve-static";
 import {join} from 'path'
+import {ScheduleModule} from "@nestjs/schedule";
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import {join} from 'path'
         entities: [VideoEntity],
         synchronize: true
       }),
+      ScheduleModule.forRoot(),
       YoutubeModule
   ]
 })

@@ -10,18 +10,25 @@ import * as os from "os";
 import * as fs from "fs";
 
 describe('youtube service', () => {
-    const testImg = join(os.tmpdir(), 'youtube-image-test');
+    const FIXED_TEST_FILE_NAME = 'youtube-convert-test';
+    const testImg = join(os.tmpdir(), FIXED_TEST_FILE_NAME);
     let youtubeService: YoutubeService;
     let temporaryFileService: TemporaryFileService;
 
+    //https://stackoverflow.com/a/49428486
+    async function streamToString(stream): Promise<string> {
+        const chunks = []
+        return new Promise((resolve, reject) => {
+            stream.on('data', chunk => chunks.push(chunk))
+            stream.on('error', reject)
+            stream.on('close', () => resolve(Buffer.concat(chunks).toString('utf8')))
+        })
+    }
+
     beforeEach(async (done) => {
         temporaryFileService = new class implements TemporaryFileService {
-            getBasePath(): string {
-                return os.tmpdir();
-            }
-
-            createTemporaryFile(extension: string): string {
-                return testImg + '.' + extension;
+            createTemporaryFile(extension: string): string[] {
+                return [testImg + '.' + extension, os.tmpdir(), FIXED_TEST_FILE_NAME + '.' + extension];
             }
         }
         const module: TestingModule = await Test.createTestingModule({
@@ -75,6 +82,33 @@ describe('youtube service', () => {
         });
     });
 
+    it('youtube to image stream', async (done) => {
+        const img = new ConvertTimeDto();
+        img.v = 'dQw4w9WgXcQ';
+        img.time = 18;
+
+        streamToString(youtubeService.imageStream(img)).then((result) => {
+            console.log(result);
+            expect(result).not.toEqual('');
+            // expect(result).toMatch(/\d\d:\d\d:\d\d\.\d\d/);
+            expect(result).toContain('youtube-convert-test.png');
+
+            fs.stat(testImg + '.png', (err, stat) => {
+                expect(err).toBeNull();
+                expect(stat).not.toBeNull();
+                fs.unlink(testImg + '.png', (err) => {
+                    expect(err).toBeNull();
+                    done();
+                })
+            });
+
+        }).catch((e) => {
+            console.error(e);
+            expect(e).toThrow();
+            done(e);
+        });
+    });
+
 
     it('youtube to gif', async (done) => {
         const img = new ConvertRangeDto();
@@ -98,6 +132,34 @@ describe('youtube service', () => {
         });
     });
 
+    it('youtube to gif stream', async (done) => {
+        const img = new ConvertRangeDto();
+        img.v = 'dQw4w9WgXcQ';
+        img.start = 18;
+        img.time = 3;
+
+        streamToString(youtubeService.gifStream(img)).then((result) => {
+            console.log(result);
+            expect(result).not.toEqual('');
+            expect(result).toMatch(/\d\d:\d\d:\d\d\.\d\d/);
+            expect(result).toContain('youtube-convert-test.gif');
+
+            fs.stat(testImg + '.gif', (err, stat) => {
+                expect(err).toBeNull();
+                expect(stat).not.toBeNull();
+                fs.unlink(testImg + '.gif', (err) => {
+                    expect(err).toBeNull();
+                    done();
+                })
+            });
+
+        }).catch((e) => {
+            console.error(e);
+            expect(e).toThrow();
+            done(e);
+        });
+    });
+
     it('youtube to mp3', async (done) => {
         const img = new ConvertRangeDto();
         img.v = 'dQw4w9WgXcQ';
@@ -117,6 +179,34 @@ describe('youtube service', () => {
                 expect(err).toBeNull();
                 done();
             });
+        });
+    });
+
+    it('youtube to mp3 stream', async (done) => {
+        const img = new ConvertRangeDto();
+        img.v = 'dQw4w9WgXcQ';
+        img.start = 18;
+        img.time = 3;
+
+        streamToString(youtubeService.mp3Stream(img)).then((result) => {
+            console.log(result);
+            expect(result).not.toEqual('');
+            expect(result).toMatch(/\d\d:\d\d:\d\d\.\d\d/);
+            expect(result).toContain('youtube-convert-test.mp3');
+
+            fs.stat(testImg + '.mp3', (err, stat) => {
+                expect(err).toBeNull();
+                expect(stat).not.toBeNull();
+                fs.unlink(testImg + '.mp3', (err) => {
+                    expect(err).toBeNull();
+                    done();
+                })
+            });
+
+        }).catch((e) => {
+            console.error(e);
+            expect(e).toThrow();
+            done(e);
         });
     });
 });

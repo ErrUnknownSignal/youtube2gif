@@ -8,9 +8,9 @@ import {CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 
 @Injectable()
 @CommandHandler(SaveRequestDto)
-export class YoutubeAnalyticsService implements ICommandHandler<SaveRequestDto> {
+export class ConvertHistoryService implements ICommandHandler<SaveRequestDto> {
 
-    private readonly TIME = 30 * 60 * 1000;
+    private readonly REMOVE_TIME = 30 * 60 * 1000;
 
     constructor(@InjectRepository(VideoEntity) private videoRepository: Repository<VideoEntity>) {
     }
@@ -24,12 +24,12 @@ export class YoutubeAnalyticsService implements ICommandHandler<SaveRequestDto> 
         await this.videoRepository.save(video);
     }
 
-    getOldImg(): Promise<VideoEntity[]> {
-        const time = new Date(Date.now() - this.TIME);
-        return this.videoRepository.find({where : [{removed: true}, {date: LessThan(time)} ] });
+    async getNotRemovedOldImage(): Promise<VideoEntity[]> {
+        const date = new Date(Date.now() - this.REMOVE_TIME);
+        return await this.videoRepository.find({where: {removed: false, date: LessThan(date)}, order: {id: 'ASC'}, take: 128})
     }
 
-    setRemoved(ids: number[]): void {
-        this.videoRepository.update(ids, {removed: true}).then();
+    async setRemoveImage(ids: number[]): Promise<void> {
+        await this.videoRepository.update(ids, {removed: true}).then();
     }
 }

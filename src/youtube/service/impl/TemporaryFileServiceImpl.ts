@@ -8,11 +8,8 @@ import {DOWNLOAD_PATH} from "../../../main";
 @Injectable()
 export class TemporaryFileServiceImpl implements TemporaryFileService {
 
-    getBasePath(): string {
-        return DOWNLOAD_PATH;
-    }
-
-    createTemporaryFile(extension: string): string {
-        return join(DOWNLOAD_PATH, crypto.randomBytes(16).toString('hex') + '.' + extension);
+    createTemporaryFile(extension: string): string[] {
+        const file = crypto.randomBytes(16).toString('hex') + '.' + extension;
+        return [join(DOWNLOAD_PATH, file), DOWNLOAD_PATH, file];
     }
 }

@@ -2,6 +2,7 @@ import {AfterViewInit, Component, NgZone, OnDestroy, Renderer2} from '@angular/c
 import {HttpClient} from '@angular/common/http';
 import {ApiService} from './service/api.service';
 import {ConvertRange} from './vo/convert-range';
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -15,33 +16,49 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   private lastCurrentTime: number;
 
   mp3Mode = false;
+  pngMode = false;
 
   url: string;
-  wrongUrl = false;
   showTips = false;
   useCurrentTime = false;
 
-  v;
-  filePath;
+  v: string;
+  filePath: string;
 
   videoQualities = VideoQuality;
-  videoQuality = VideoQuality.SMALL;
-
   audioQualities = AudioQuality;
-  audioQuality = AudioQuality.HIGH;
 
-  startMin = 0;
-  startSec = 0.0;
-  duration = 0.0;
+  formUrl = new FormControl('', [
+    Validators.required,
+    //https://gist.github.com/afeld/1254889
+    Validators.pattern(/(youtu\.be\/|youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))([^\?&"'>]+)/)
+  ]);
+  formTime = new FormGroup({
+    currentTime: new FormControl(false),
+    startMin: new FormControl(0),
+    startSec: new FormControl(0.0),
+    duration: new FormControl(3.0),
+    videoQuality: new FormControl(VideoQuality.SMALL),
+    audioQuality: new FormControl(AudioQuality.LOW)
+  });
 
   constructor(private ngZone: NgZone,
               private renderer: Renderer2,
               private http: HttpClient,
-              private api: ApiService) {
+              private api: ApiService,
+              private fb: FormBuilder) {
     if (/youtube2mp3/i.test(location.pathname)) {
       this.mp3Mode = true;
+    } else if (/youtube2png/i.test(location.pathname)) {
+      this.pngMode = true;
     }
-    // this.url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+    // this.formUrl.setValue('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+
+    this.formTime.valueChanges.subscribe((data) => {
+      if (this.useCurrentTime !== data.currentTime) {
+        this.useCurrentTime = data.currentTime; //TODO fix
+      }
+    });
   }
 
   private clearVideo(): void {
@@ -61,10 +78,10 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   }
 
   loadUrl(): void {
-    if (!this.url) {
+    if (!this.formUrl.value) {
       return;
     }
-    const val = this.url.trim();
+    const val = this.formUrl.value.trim();
     let v, t;
     let match;
     if (/youtube\.com\/watch\?v=((\w|-)+)/.test(val)) {
@@ -83,13 +100,10 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
 
     if (!v) {
-      this.wrongUrl = true;
       return
     }
     this.v = v;
     this.clearVideo();
-
-    this.wrongUrl = false;
 
     const youtubeFrameElement = this.renderer.createElement('div');
     this.renderer.setProperty(youtubeFrameElement, 'id', 'youtube-frame');
@@ -115,11 +129,16 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     if (!this.v) {
       return;
     }
+    const val = this.formTime.value;
     const convertRange = new ConvertRange();
-
     convertRange.v = this.v;
-    convertRange.start = (this.startMin * 60) + this.startSec;
-    convertRange.time = this.duration;
+    if (val.currentTime) {
+      convertRange.start = this.player.getCurrentTime();
+    } else {
+      convertRange.start = (Number(val.startMin) * 60) + Number(val.startSec);
+    }
+    convertRange.time = Number(val.duration);
+    convertRange.quality = this.mp3Mode? val.audioQuality : val.videoQuality;
 
     this.api.convertGif(convertRange).subscribe(value => {
       this.filePath = `static/download/${value.file}`;
@@ -138,8 +157,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
       if (this.player && this.player.getCurrentTime && this.lastCurrentTime !== this.player.getCurrentTime()) {
         this.lastCurrentTime = this.player.getCurrentTime();
         if (this.useCurrentTime) {
-          this.startMin = Math.floor(this.lastCurrentTime / 60);
-          this.startSec = Number((this.lastCurrentTime % 60).toFixed(1));
+          this.formTime.controls.startMin.setValue(Math.floor(this.lastCurrentTime / 60));
+          this.formTime.controls.startSec.setValue(Number((this.lastCurrentTime % 60).toFixed(1)));
         }
       }
     }, 100);

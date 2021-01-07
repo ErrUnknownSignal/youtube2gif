@@ -1,4 +1,4 @@
-import {IsNotEmpty, Min} from "class-validator";
+import {IsNotEmpty, Max, Min} from "class-validator";
 
 export class ConvertTimeDto {
 
@@ -7,4 +7,8 @@ export class ConvertTimeDto {
 
     @Min(0)
     time: number;
+
+    @Min(0)
+    @Max(1)
+    quality: number = 0;
 }

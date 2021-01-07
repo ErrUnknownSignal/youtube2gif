@@ -77,22 +77,22 @@ section {
 
 
 
-.youtube-control>div {
+.youtube-control>form {
   display: inline-block;
   width: 85%;
   padding-top: 30px;
   text-align: left;
 }
-.youtube-control>div>div:nth-child(n+2) {
+.youtube-control>form>div:nth-child(n+2) {
   margin-top: 10px;
 }
-.youtube-control>div>.user-input {
+.youtube-control>form>.user-input {
   padding: 3px 5px;
   background-color: #617968;
   border-radius: 5px;
 }
 
-.youtube-control>div>.quality {
+.youtube-control>form>.quality {
 
 }
 .quality>label {
@@ -168,7 +168,7 @@ section {
 .youtube-control .preview-btn {
   text-align: center;
 }
-.youtube-control button[type="button"] {
+.youtube-control button {
   margin: 15px 0;
   font-size: 14px;
   text-align: center;
@@ -190,11 +190,11 @@ section {
 
 
 .download-layer {
-  display: flex;
-}
-.download-layer .download-btn {
   text-align: center;
 }
+/*.download-layer .download-btn {*/
+/*  text-align: center;*/
+/*}*/
 .download-btn button[type="button"] {
   margin: 15px 0;
   padding: 10px 20px 10px 20px;

@@ -8,6 +8,7 @@ import {CommandBus, ICommand, ICommandBus} from "@nestjs/cqrs";
 import {join} from "path";
 import * as os from "os";
 import * as fs from "fs";
+import {VideoQuality} from "../../enums/VideoQuality";
 
 describe('youtube service', () => {
     const FIXED_TEST_FILE_NAME = 'youtube-convert-test';
@@ -74,7 +75,7 @@ describe('youtube service', () => {
         fs.stat(testImg + '.png', (err, stat) => {
             console.log(err, stat);
             expect(err).toBeNull();
-            expect(stat).not.toBeUndefined();
+            expect(stat).not.toBeNull();
             fs.unlink(testImg + '.png', (err) => {
                 expect(err).toBeNull();
                 done();
@@ -96,10 +97,11 @@ describe('youtube service', () => {
             fs.stat(testImg + '.png', (err, stat) => {
                 expect(err).toBeNull();
                 expect(stat).not.toBeNull();
+                // done();
                 fs.unlink(testImg + '.png', (err) => {
                     expect(err).toBeNull();
                     done();
-                })
+                });
             });
 
         }).catch((e) => {
@@ -107,6 +109,22 @@ describe('youtube service', () => {
             expect(e).toThrow();
             done(e);
         });
+    });
+
+    it('youtube to image stream disconnect handling', async (done) => {
+        const img = new ConvertTimeDto();
+        img.v = 'dQw4w9WgXcQ';
+        img.time = 18;
+
+        const readable = youtubeService.imageStream(img)
+        setTimeout(() => {
+            readable.destroy();
+
+            fs.stat(testImg + '.png', (err, stat) => {
+                expect(stat).toBeUndefined();
+                done();
+            });
+        }, 1000);
     });
 
 
@@ -124,7 +142,8 @@ describe('youtube service', () => {
         fs.stat(testImg + '.gif', (err, stat) => {
             console.log(err, stat);
             expect(err).toBeNull();
-            expect(stat).not.toBeUndefined();
+            expect(stat).not.toBeNull();
+            // done();
             fs.unlink(testImg + '.gif', (err) => {
                 expect(err).toBeNull();
                 done();
@@ -137,6 +156,7 @@ describe('youtube service', () => {
         img.v = 'dQw4w9WgXcQ';
         img.start = 18;
         img.time = 3;
+        img.quality = 1
 
         streamToString(youtubeService.gifStream(img)).then((result) => {
             console.log(result);
@@ -147,10 +167,11 @@ describe('youtube service', () => {
             fs.stat(testImg + '.gif', (err, stat) => {
                 expect(err).toBeNull();
                 expect(stat).not.toBeNull();
+                // done();
                 fs.unlink(testImg + '.gif', (err) => {
                     expect(err).toBeNull();
                     done();
-                })
+                });
             });
 
         }).catch((e) => {
@@ -174,7 +195,7 @@ describe('youtube service', () => {
         fs.stat(testImg + '.mp3', (err, stat) => {
             console.log(err, stat);
             expect(err).toBeNull();
-            expect(stat).not.toBeUndefined();
+            expect(stat).not.toBeNull();
             fs.unlink(testImg + '.mp3', (err) => {
                 expect(err).toBeNull();
                 done();
@@ -197,10 +218,11 @@ describe('youtube service', () => {
             fs.stat(testImg + '.mp3', (err, stat) => {
                 expect(err).toBeNull();
                 expect(stat).not.toBeNull();
+                // done();
                 fs.unlink(testImg + '.mp3', (err) => {
                     expect(err).toBeNull();
                     done();
-                })
+                });
             });
 
         }).catch((e) => {

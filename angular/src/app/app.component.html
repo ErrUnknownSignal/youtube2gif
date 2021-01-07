@@ -15,10 +15,10 @@
       <div class="youtube-url">
         <div>
           <label class="triple-border">
-            <input type="text" id="youtube" [(ngModel)]="url" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
+            <input type="text" id="youtube" [formControl]="formUrl" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
           </label>
         </div>
-        <div class="url-wrong" *ngIf="wrongUrl">wrong url!!</div>
+        <div class="url-wrong" *ngIf="formUrl.value && !formUrl.valid">wrong url!!</div>
         <div>
           <button type="button" id="youtube-load" (click)="loadUrl()">Load</button>
         </div>
@@ -31,30 +31,31 @@
           <div class="youtube-frame"></div>
           <div class="tips" *ngIf="showTips">Press < > key to previous frame and next frame</div>
         </div>
+
         <div class="youtube-control">
-          <div>
+          <form [formGroup]="formTime" (ngSubmit)="preview()">
             <div class="quality" *ngIf="!mp3Mode">
-              <input type="radio" id="qualitySmall" name="quality" [value]="videoQualities.SMALL" [(ngModel)]="videoQuality" />
+              <input type="radio" id="qualitySmall" [value]="videoQualities.SMALL" formControlName="videoQuality" />
               <label for="qualitySmall">SMALL</label>
-              <input type="radio" id="qualityMedium" name="quality" [value]="videoQualities.MEDIUM" [(ngModel)]="videoQuality" />
+              <input type="radio" id="qualityMedium" [value]="videoQualities.MEDIUM" formControlName="videoQuality" />
               <label for="qualityMedium">MEDIUM</label>
-              <input type="radio" id="qualityLarge" name="quality" [value]="videoQualities.LARGE" [(ngModel)]="videoQuality" />
+              <input type="radio" id="qualityLarge" [value]="videoQualities.LARGE" formControlName="videoQuality" />
               <label for="qualityLarge">LARGE</label>
-              <input type="radio" id="qualityHD" name="quality" [value]="videoQualities.HD" [(ngModel)]="videoQuality" />
+              <input type="radio" id="qualityHD" [value]="videoQualities.HD" formControlName="videoQuality" />
               <label for="qualityHD">HD</label>
-              <input type="radio" id="qualityFHD" name="quality" [value]="videoQualities.FHD" [(ngModel)]="videoQuality" />
+              <input type="radio" id="qualityFHD" [value]="videoQualities.FHD" formControlName="videoQuality" />
               <label for="qualityFHD">FHD</label>
             </div>
             <div class="quality" *ngIf="mp3Mode">
-              <input type="radio" id="qualityLOW" name="quality" [value]="audioQualities.LOW" [(ngModel)]="audioQuality" />
+              <input type="radio" id="qualityLOW" [value]="audioQualities.LOW" formControlName="audioQuality" />
               <label for="qualityLOW">LOW</label>
-              <input type="radio" id="qualityHIGH" name="quality" [value]="audioQualities.HIGH" [(ngModel)]="audioQuality" />
+              <input type="radio" id="qualityHIGH" [value]="audioQualities.HIGH" formControlName="audioQuality" />
               <label for="qualityHIGH">HIGH</label>
             </div>
 
             <div class="user-input current-start-time-checkbox">
               <label>Current time as start time
-                <input type="checkbox" id="current-time" [(ngModel)]="useCurrentTime" />
+                <input type="checkbox" id="current-time" formControlName="currentTime" />
               </label>
             </div>
 
@@ -62,27 +63,27 @@
               <span>Start time</span>
               <label>
 <!--                <input type="text" id="start-min" class="number-only" min="0" max="59" appSecondFormatter [(ngModel)]="startMin" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />-->
-                <input type="text" id="start-min" class="number-only" min="0" max="59" [(ngModel)]="startMin" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />
+                <input type="text" id="start-min" class="number-only" min="0" max="59" formControlName="startMin" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />
               </label>
               <span>:</span>
               <label>
 <!--                <input type="text" id="start-sec" class="number-only" min="0" max="59" appSecondFormatter [(ngModel)]="startSec" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />-->
-                <input type="text" id="start-sec" class="number-only" min="0" max="59" [(ngModel)]="startSec" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />
+                <input type="text" id="start-sec" class="number-only" min="0" max="59" formControlName="startSec" [readOnly]="useCurrentTime" [ngClass]="{disable: useCurrentTime}" />
               </label>
             </div>
 
-            <div class="user-input time">
+            <div class="user-input time" *ngIf="pngMode">
               <span>Duration</span>
               <label>
 <!--                <input type="text" id="duration" class="number-only" min="0" max="60" appSecondFormatter [(ngModel)]="duration" />-->
-                <input type="text" id="duration" class="number-only" min="0" max="60" [(ngModel)]="duration" />
+                <input type="text" id="duration" class="number-only" min="0" max="60" formControlName="duration" />
               </label>
             </div>
 
             <div class="preview-btn">
-              <button type="button" id="preview" (click)="preview()">preview</button>
+              <button type="submit" id="preview">preview</button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </section>
@@ -91,10 +92,8 @@
       <div class="image-preview">
         <img [src]="filePath" alt="download file" />
       </div>
-    </section>
 
-    <section *ngIf="hasPlayer() && filePath">
-      <div class="download-layer">
+      <div class="download-layer" *ngIf="hasPlayer() && filePath">
         <div class="download-btn">
           <button type="button" id="download" (click)="downloadFile()">download</button>
         </div>

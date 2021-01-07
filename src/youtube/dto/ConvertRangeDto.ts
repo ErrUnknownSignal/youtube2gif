@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsPositive, Min} from "class-validator";
+import {IsNotEmpty, IsPositive, Max, Min} from "class-validator";
 
 export class ConvertRangeDto {
 
@@ -10,4 +10,8 @@ export class ConvertRangeDto {
 
     @IsPositive()
     time: number;
+
+    @Min(0)
+    @Max(4)
+    quality: number = 0;
 }

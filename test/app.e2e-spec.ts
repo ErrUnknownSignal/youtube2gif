@@ -15,9 +15,28 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('gif api test', () => {
     return request(app.getHttpServer())
-      .get('/')
-      .expect(200);
+        .post('/api/gif-stream')
+        .send({v: 'dQw4w9WgXcQ', start: 0, time: 3, quality: 0})
+        .expect(200);
+  });
+
+  it('image api test', () => {
+    return request(app.getHttpServer())
+        .post('/api/image-stream')
+        .send({v: 'dQw4w9WgXcQ', start: 0, quality: 0})
+        .expect(200);
+  });
+
+  it('mp3 api test', () => {
+    return request(app.getHttpServer())
+        .post('/api/mp3-stream')
+        .send({v: 'dQw4w9WgXcQ', start: 0, time: 3, quality: 0})
+        .expect(200);
+  });
+
+  afterEach(async () => {
+    await app.close();
   });
 });

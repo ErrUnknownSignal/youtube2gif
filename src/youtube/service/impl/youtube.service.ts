@@ -49,6 +49,10 @@ export class YoutubeService {
         return readable;
     }
 
+    /**
+     *
+     * @deprecated use gifStream
+     */
     async gif(gifDto: ConvertRangeDto): Promise<string> {
         return new Promise(async (resolve, reject) => {
             const tempFile = this.temporaryFileService.createTemporaryFile('gif');
@@ -85,6 +89,10 @@ export class YoutubeService {
         return readable;
     }
 
+    /**
+     *
+     * @deprecated use imageStream
+     */
     //https://github.com/fent/node-ytdl-core/blob/master/example/take_screenshot.js
     async image(imageDto: ConvertTimeDto): Promise<string> {
         return new Promise(async (resolve, reject) => {
@@ -122,6 +130,10 @@ export class YoutubeService {
         return readable;
     }
 
+    /**
+     *
+     * @deprecated use mp3Stream
+     */
     async mp3(mp3Dto: ConvertRangeDto): Promise<string> {
         return new Promise(async (resolve, reject) => {
             const tempFile = this.temporaryFileService.createTemporaryFile('mp3');

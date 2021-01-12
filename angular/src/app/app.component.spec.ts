@@ -16,16 +16,18 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'angular'`, () => {
+  it(`should load youtube url`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular');
+    app.formUrl.setValue('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
+    app.loadUrl();
+    expect(app.v).toEqual('dQw4w9WgXcQ');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('angular app is running!');
+    expect(compiled.querySelector('.youtube-frame').innerHTML).toContain('iframe');
   });
 });

@@ -1,7 +1,52 @@
-.idea
+.idea/
+#f this shit .dockerignore randomly works, i give up
+#i wasted 1 hour of this shit, could somebody explain this? (Docker version 19.03.13)
 .git
+.git/
+.git/*
+.git/**
+*/.git
+*/.git/
+*/.git/*
+**/.git
+**/.git/
+**/.git/**
 angular
-dist
-node_modules
+angular/
+angular/*
+angular/**
+*/angular
+*/angular/
+*/angular/*
+**/angular
+**/angular/
+**/angular/**
+src
+src/
+src/*
+src/**
+*/src
+*/src/
+*/src/*
+**/src
+**/src/
+**/src/**
+#↑ still not work,
+
+#node_modules/ is work
+node_modules/
+
+#public/download is work
+public/download/**
+!public/download/.gitkeep
+
+#exclude file is perfectly works
+.eslintrc.js
+.prettierrc
+nest-cli.json
+README.md
+tsconfig.build.json
+tsconfig.json
 npm-debug.log
+mysql-deployment.yaml
 mysql-pass.yaml

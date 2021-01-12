@@ -8,7 +8,6 @@ import {CommandBus, ICommand, ICommandBus} from "@nestjs/cqrs";
 import {join} from "path";
 import * as os from "os";
 import * as fs from "fs";
-import {VideoQuality} from "../../enums/VideoQuality";
 
 describe('youtube service', () => {
     const FIXED_TEST_FILE_NAME = 'youtube-convert-test';
@@ -58,6 +57,19 @@ describe('youtube service', () => {
             expect(stdout).not.toBeNull();
             expect(stdout).not.toBeUndefined();
             expect(stdout).not.toEqual('');
+            done();
+        });
+    });
+
+    it('wrong youtube video test', async (done) => {
+        const img = new ConvertTimeDto();
+        img.v = 'null';
+        img.time = 6;
+
+        streamToString(await youtubeService.imageStream(img)).then((str) => {
+            expect(str).toBeUndefined();
+        }).catch((e) => {
+            expect(e).not.toBeUndefined();
             done();
         });
     });
@@ -231,4 +243,7 @@ describe('youtube service', () => {
             done(e);
         });
     });
+
+    //IF test does not end, add --forceExit option
+    //https://github.com/facebook/jest/issues/1456#issuecomment-264085806
 });

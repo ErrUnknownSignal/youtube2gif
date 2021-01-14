@@ -33,14 +33,12 @@ src/**
 **/src/**
 #↑ still not work,
 
-#node_modules/ is work
-node_modules/
 
 #public/download is work
 public/download/**
 !public/download/.gitkeep
 
-#exclude file is perfectly works
+#exclude specific file is perfectly works
 .eslintrc.js
 .prettierrc
 nest-cli.json

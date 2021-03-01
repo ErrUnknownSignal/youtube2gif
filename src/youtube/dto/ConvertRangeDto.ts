@@ -14,4 +14,9 @@ export class ConvertRangeDto {
     @Min(0)
     @Max(4)
     quality: number = 0;
+
+
+    public toString(): string {
+        return `v-${this.v}_start-${this.start}_time-${this.time}_quality-${this.quality}`;
+    }
 }

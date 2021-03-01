@@ -13,6 +13,9 @@ export class VideoEntity {
     @Column({type: 'enum', enum: ConvertRequestType, default: ConvertRequestType.PNG, nullable: false})
     type: ConvertRequestType;
 
+    @Column("varchar", {length: 64, nullable: false})
+    meta: string;
+
     @CreateDateColumn()
     date!: Date;
 

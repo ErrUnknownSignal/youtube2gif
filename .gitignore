@@ -45,3 +45,7 @@ public/styles.*.css
 deploy.yaml
 mysql-deployment.yaml
 mysql-pass.yaml
+kafka
+kafka.yaml
+zookeeper.yaml
+TODO.md

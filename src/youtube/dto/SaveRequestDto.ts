@@ -10,11 +10,14 @@ export class SaveRequestDto {
 
     path: string;
 
+    meta: string;
+
     public static newTimeSeriesData(val: ConvertRangeDto, type: ConvertRequestType, path: string): SaveRequestDto {
         const request = new SaveRequestDto();
         request.v = val.v;
         request.type = type;
         request.path = path.replace('\\', '/');
+        request.meta = val.toString();
         return request;
     }
 
@@ -23,6 +26,7 @@ export class SaveRequestDto {
         request.v = val.v;
         request.type = ConvertRequestType.PNG;
         request.path = path.replace('\\', '/');
+        request.meta = val.toString();
         return request;
     }
 }

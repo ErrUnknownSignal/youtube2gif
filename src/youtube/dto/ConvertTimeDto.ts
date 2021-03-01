@@ -11,4 +11,9 @@ export class ConvertTimeDto {
     @Min(0)
     @Max(1)
     quality: number = 0;
+
+
+    public toString(): string {
+        return `v-${this.v}_time-${this.time}_quality-${this.quality}`;
+    }
 }

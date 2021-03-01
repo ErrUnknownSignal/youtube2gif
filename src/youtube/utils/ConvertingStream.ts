@@ -16,18 +16,19 @@ export class ConvertingStream extends Readable {
         let first = true;
         this.on('data', (chunk) => {
             if (first) {
-                res.writeHead(200, {'Content-Type': 'text/plain'});
+                res.writeHead(200, {'Content-Type': 'text/event-stream', 'Expires': '-1'});
                 first = false;
             }
-            res.write(chunk.toString());
+            res.write('data: ' + chunk.toString() + '\n\n');
             // res.flush();
         });
         this.on('error', (e) => {
             if (first) {
-                res.writeHead(500, {'Content-Type': 'text/plain'});
+                res.writeHead(500, {'Content-Type': 'text/event-stream', 'Expires': '-1'});
                 first = false;
             }
-            res.write(e.message);
+            res.write('event: error\n');
+            res.write('data: ' + e.message + '\n\n');
         });
         this.on('close', () => {
             res.end();

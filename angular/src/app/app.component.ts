@@ -18,7 +18,6 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   mp3Mode = false;
   pngMode = false;
 
-  url: string;
   showTips = false;
   useCurrentTime = false;
 
@@ -49,7 +48,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
               private fb: FormBuilder) {
     if (/youtube2mp3/i.test(location.pathname)) {
       this.mp3Mode = true;
-    } else if (/youtube2png/i.test(location.pathname)) {
+    } else if (/youtube2image/i.test(location.pathname)) {
       this.pngMode = true;
     }
     // this.formUrl.setValue('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
@@ -141,10 +140,12 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     convertRange.quality = this.mp3Mode? val.audioQuality : val.videoQuality;
 
     this.api.convertGif(convertRange).subscribe(value => {
-      this.filePath = `static/download/${value.file}`;
+      if (!/(\d\d:\d\d:\d\d\.\d\d)/.test(value)) {
+        this.filePath = `static/download/${value}`;
 
-      const previewElement = this.renderer.selectRootElement('#previewImage');
-      this.renderer.setProperty(previewElement, 'src', this.filePath);
+        const previewElement = this.renderer.selectRootElement('#previewImage');
+        this.renderer.setProperty(previewElement, 'src', this.filePath);
+      }
     });
   }
 

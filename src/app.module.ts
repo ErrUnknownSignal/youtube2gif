@@ -1,10 +1,12 @@
-import { Module } from '@nestjs/common';
+import {Module} from '@nestjs/common';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {VideoEntity} from "./youtube/entity/Video.entity";
 import {YoutubeModule} from "./youtube/YoutubeModule";
 import {ServeStaticModule} from "@nestjs/serve-static";
 import {join} from 'path'
 import {ScheduleModule} from "@nestjs/schedule";
+import {EncodingModule} from "./encoding/EncodingModule";
+
 
 @Module({
   imports: [
@@ -31,7 +33,8 @@ import {ScheduleModule} from "@nestjs/schedule";
         synchronize: true
       }),
       ScheduleModule.forRoot(),
-      YoutubeModule
+      YoutubeModule,
+      EncodingModule
   ]
 })
 export class AppModule {}

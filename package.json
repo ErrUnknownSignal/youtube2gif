@@ -1,6 +1,6 @@
 {
   "name": "youtube-nest",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "author": "",
   "private": true,
@@ -30,6 +30,8 @@
     "@nestjs/typeorm": "^7.1.4",
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
+    "got": "^11.8.1",
+    "kafkajs": "^1.15.0",
     "mariadb": "^2.5.0",
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13",

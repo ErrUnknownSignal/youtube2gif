@@ -1,6 +1,6 @@
 import {InjectRepository} from "@nestjs/typeorm";
 import {VideoEntity} from "../../entity/Video.entity";
-import {LessThan, Repository} from "typeorm";
+import {In, Repository} from "typeorm";
 import {Injectable} from "@nestjs/common";
 import {SaveRequestDto} from "../../dto/SaveRequestDto";
 import {CommandHandler, ICommandHandler} from "@nestjs/cqrs";
@@ -10,8 +10,6 @@ import {CommandHandler, ICommandHandler} from "@nestjs/cqrs";
 @CommandHandler(SaveRequestDto)
 export class ConvertHistoryService implements ICommandHandler<SaveRequestDto> {
 
-    private readonly REMOVE_TIME = 30 * 60 * 1000;
-
     constructor(@InjectRepository(VideoEntity) private videoRepository: Repository<VideoEntity>) {
     }
 
@@ -20,16 +18,24 @@ export class ConvertHistoryService implements ICommandHandler<SaveRequestDto> {
         video.v = command.v;
         video.type = command.type;
         video.path = command.path;
+        video.meta = command.meta;
 
         await this.videoRepository.save(video);
     }
 
-    async getNotRemovedOldImage(): Promise<VideoEntity[]> {
-        const date = new Date(Date.now() - this.REMOVE_TIME);
-        return await this.videoRepository.find({where: {removed: false, date: LessThan(date)}, order: {id: 'ASC'}, take: 128})
+    async getCachedFile(v: string, meta: string): Promise<string> {
+        const entities = await this.videoRepository.find({where: {v: v, removed: false, meta: meta}});
+        if (entities && entities.length > 0) {
+            return entities[0].path;
+        }
+        return;
     }
 
-    async setRemoveImage(ids: number[]): Promise<void> {
-        await this.videoRepository.update(ids, {removed: true}).then();
+    async setRemoveFile(paths: string[]): Promise<void> {
+        const list = await this.videoRepository.find({where: {path: In(paths), removed: false}});
+        for (const l of list) {
+            l.removed = true;
+        }
+        await this.videoRepository.save(list);
     }
 }
